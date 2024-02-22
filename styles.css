@@ -1,5 +1,6 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: Merriweather, Work-sans, sans-serif;
+  color: rgb(84, 101, 108); 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,6 +22,8 @@ h1 {
   font-size: 2rem;
   margin-bottom: 20px;
   text-align: center;
+  font-family:Georgia, Geneva, Tahoma, sans-serif;
+  
 }
 
 #emoji {
@@ -42,7 +45,7 @@ button {
   margin: 10px auto;
   padding: 10px 20px;
   border: none;
-  background-color: #298a63;
+  background-color: rgb(106, 145, 162);
   color: white;
   cursor: pointer;
   border-radius: 5px;
@@ -50,7 +53,7 @@ button {
 }
 
 button:hover {
-  background-color: #19523b;
+  background-color: rgb(66, 91, 101);
 }
 
 div{

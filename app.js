@@ -4,16 +4,18 @@ const timeElement = document.getElementById("time");
 const weatherButton = document.getElementById("weatherBtn");
 const celcius = document.getElementById("celciusBtn");
 const fahrenheit = document.getElementById("fahrentheitBtn");
+const emoji = document.getElementById("emoji");
 
 // weather location and API
 const city = 'London';
-const url = "https://api.open-meteo.com/v1/forecast?latitude=51.5085&longitude=-0.1257&current=temperature_2m&forecast_days=1";
+const url = "https://api.open-meteo.com/v1/forecast?latitude=51.5085&longitude=-0.1257&current=temperature_2m,relative_humidity_2m,is_day,rain&forecast_days=1";
 
 // main function to retrieve and display weather and time info
 async function getAndDisplayWeather() {
   const weatherInfo = await retrieveWeather();
   displayWeather(weatherInfo);
   displayTime(weatherInfo);
+  dayOrNight(weatherInfo);
 }
 
 // Function to retrieve weather info
@@ -30,7 +32,6 @@ async function retrieveWeather() {
     console.error(response.text());
   }
   const data = await response.json();
-  // console.log(data.joke);
   console.log(data);
   return data;
   };
@@ -39,7 +40,7 @@ async function retrieveWeather() {
 function displayWeather(data) {
   const currentTemp = data.current.temperature_2m;
   const unit = data.current_units.temperature_2m;
-  weatherElement.textContent = `The current temperature in ${city} is ${currentTemp} ${unit}`;
+  weatherElement.textContent = `It is ${currentTemp} ${unit} in ${city} at the moment.`;
   return currentTemp;
 }
 
@@ -53,9 +54,19 @@ function displayTime(data){
 async function toFahrenheit() {
   const data = await retrieveWeather();
   const tempF = (displayWeather(data)* 1.8) + 32;
-  weatherElement.textContent = `The current temperature in ${city} is ${tempF} °F`;
+  const unit = "°F";
+  weatherElement.textContent =  `It is ${tempF} ${unit} in ${city} at the moment.`;
 };
 
+// Function to display day or night 
+function dayOrNight(data) {
+  const isDay = data.current.is_day;
+  if (isDay) {
+    emoji.src = "cloud.png";
+  } else {
+    emoji.src = "night.png";
+  }
+}
 
 // Event Listeners
 // page load
