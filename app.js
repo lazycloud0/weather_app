@@ -1,21 +1,20 @@
 // get various elements from html
 const weatherElement = document.getElementById("weather"); 
 const timeElement = document.getElementById("time");
-const weatherButton = document.getElementById("weatherBtn");
 const celcius = document.getElementById("celciusBtn");
 const fahrenheit = document.getElementById("fahrentheitBtn");
 const emoji = document.getElementById("emoji");
 
 // weather location and API
-const city = 'London';
+//const city = 'London';
 const url = "https://api.open-meteo.com/v1/forecast?latitude=51.5085&longitude=-0.1257&current=temperature_2m,relative_humidity_2m,is_day,rain&forecast_days=1";
 
 // main function to retrieve and display weather and time info
 async function getAndDisplayWeather() {
   const weatherInfo = await retrieveWeather();
   displayWeather(weatherInfo);
-  displayTime(weatherInfo);
   dayOrNight(weatherInfo);
+  displayTime();
 }
 
 // Function to retrieve weather info
@@ -40,22 +39,8 @@ async function retrieveWeather() {
 function displayWeather(data) {
   const currentTemp = data.current.temperature_2m;
   const unit = data.current_units.temperature_2m;
-  weatherElement.textContent = `It is ${currentTemp} ${unit} in ${city} at the moment.`;
+  weatherElement.textContent = `It is ${currentTemp} ${unit} now.`;
   return currentTemp;
-}
-
-//function to display time
-function displayTime(data){
-  const time = data.current.time;
-  timeElement.textContent = time;
-}
-
-// Function to convert °C to °F (°C * 1.8) + 32 = °F
-async function toFahrenheit() {
-  const data = await retrieveWeather();
-  const tempF = (displayWeather(data)* 1.8) + 32;
-  const unit = "°F";
-  weatherElement.textContent =  `It is ${tempF} ${unit} in ${city} at the moment.`;
 };
 
 // Function to display day or night 
@@ -65,14 +50,31 @@ function dayOrNight(data) {
     emoji.src = "cloud.png";
   } else {
     emoji.src = "night.png";
-  }
-}
+  };
+};
+
+//function to display time
+function displayTime(){
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  timeElement.textContent = `${hours}:${minutes}`;
+};
+
+
+// Function to convert °C to °F (°C * 1.8) + 32 = °F
+async function toFahrenheit() {
+  const data = await retrieveWeather();
+  const tempF = (displayWeather(data)* 1.8) + 32;
+  const unit = "°F";
+  weatherElement.textContent =  `It is ${tempF} ${unit} now.`;
+};
+
 
 // Event Listeners
 // page load
 document.addEventListener("DOMContentLoaded", getAndDisplayWeather);
 // get weather and weather conversions 
-weatherButton.addEventListener("click", getAndDisplayWeather);
 celcius.addEventListener('click', getAndDisplayWeather);
 fahrenheit.addEventListener('click', toFahrenheit);
 
